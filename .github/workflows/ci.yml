@@ -5,6 +5,15 @@ on:
   workflow_dispatch:
 
 jobs:
+  validate-json:
+    name: Validate JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JSON syntax
+        run: |
+          python3 .github/scripts/validate_json.py
+
   build:
     uses: ./.github/workflows/mod-builder.yml
     with:
