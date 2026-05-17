@@ -23,5 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 </Project>
