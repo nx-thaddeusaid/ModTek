@@ -12,8 +12,44 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8
-      - name: Run unit tests
-        run: dotnet test ModTek.Tests/ModTek.Tests.csproj --verbosity normal
+      - name: Run unit tests with coverage
+        run: |
+          dotnet test ModTek.Tests/ModTek.Tests.csproj --verbosity normal \
+            --collect:"XPlat Code Coverage" \
+            --results-directory coverage/
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/**/coverage.cobertura.xml
+          if-no-files-found: warn
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8
+      - name: Check whitespace formatting (ModTek.Common)
+        run: dotnet format whitespace --verify-no-changes ModTek.Common/ModTek.Common.csproj
+      - name: Check formatting (ModTek.Tests)
+        run: dotnet format --verify-no-changes ModTek.Tests/ModTek.Tests.csproj
+
+  nuget-vuln:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8
+      - name: Restore test project packages
+        run: dotnet restore ModTek.Tests/ModTek.Tests.csproj
+      - name: NuGet vulnerability scan
+        run: |
+          dotnet list ModTek.Tests/ModTek.Tests.csproj package --vulnerable --include-transitive \
+            2>&1 | tee /tmp/vuln.txt
+          ! grep -q "has the following vulnerable" /tmp/vuln.txt
 
   build:
     uses: ./.github/workflows/mod-builder.yml

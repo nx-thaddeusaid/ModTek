@@ -15,6 +15,7 @@
     <Compile Include="../ModTek.Common/Utils/FileUtils.cs" />
     <Compile Include="../ModTek.Common/Utils/CSharpUtils.cs" />
     <Compile Include="../ModTek.Common/Utils/DictionaryExtensions.cs" />
+    <Compile Include="../ModTek.Common/Utils/AssemblyUtils.cs" />
     <Compile Include="../ModTek.Common/Globals/Paths.cs" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using ModTek.Common.Utils;
 using Xunit;
 

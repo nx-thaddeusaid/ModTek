@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+# Check formatting on staged changes
+if git diff --cached --name-only | grep -q "ModTek.Common/"; then
+    echo "Checking whitespace: ModTek.Common"
+    dotnet format whitespace --verify-no-changes ModTek.Common/ModTek.Common.csproj
+fi
+
+if git diff --cached --name-only | grep -q "ModTek.Tests/"; then
+    echo "Checking format: ModTek.Tests"
+    dotnet format --verify-no-changes ModTek.Tests/ModTek.Tests.csproj
+fi
+
+# Run tests if any source or test files are staged
+if git diff --cached --name-only | grep -qE "\.(cs|csproj)$"; then
+    echo "Running unit tests..."
+    dotnet test ModTek.Tests/ModTek.Tests.csproj --verbosity quiet
+fi
