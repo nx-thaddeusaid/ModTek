@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    Include ModTek.Common source files directly rather than via project reference.
+    A project reference would require BattleTechGameDir to exist at build time (CommonBase.props
+    ValidateBattleTechGameDir InitialTarget). Source inclusion sidesteps that entirely.
+  -->
+  <ItemGroup>
+    <Compile Include="../ModTek.Common/Utils/FileUtils.cs" />
+    <Compile Include="../ModTek.Common/Utils/CSharpUtils.cs" />
+    <Compile Include="../ModTek.Common/Utils/DictionaryExtensions.cs" />
+    <Compile Include="../ModTek.Common/Globals/Paths.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
