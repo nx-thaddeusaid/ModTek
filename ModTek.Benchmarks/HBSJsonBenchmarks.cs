@@ -8,7 +8,8 @@ namespace ModTek.Benchmarks;
 /// <summary>
 /// Streaming JSON parse (JObject.Load + JsonTextReader) vs ReadAllText + JObject.Parse.
 /// The streaming path is the current fast path in HBSJsonUtils.ParseGameJSONFile.
-/// Files: small mechdef ~7KB, medium MechEngineer settings ~40KB, large localization ~823KB.
+/// Files: small mechdef ~7KB, medium MechEngineer settings ~41KB, large StrategicOps mod.json ~378KB.
+/// All files are top-level JSON objects (JObject.Load requires this).
 /// </summary>
 [MemoryDiagnoser]
 [HideColumns("Error", "StdDev", "RatioSD")]
@@ -17,7 +18,7 @@ public class HBSJsonBenchmarks
     [Params(
         "/mount/ssd2/work/roguetech-mods/RogueTech/Core/Solaris7/mech/mechdef_scorpion_SCP-S7.json",
         "/mount/ssd2/work/roguetech-mods/RogueTech/Core/MechEngineer/Settings.json",
-        "/mount/ssd2/work/roguetech-mods/RogueTech/Core/RogueTechCore/Localization.json")]
+        "/mount/ssd2/work/roguetech-mods/RogueTech/Core/StrategicOperations/mod.json")]
     public string FilePath;
 
     [Benchmark(Baseline = true)]
