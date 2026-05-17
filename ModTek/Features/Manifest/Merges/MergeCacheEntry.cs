@@ -129,8 +129,12 @@ internal class MergeCacheEntry : IEquatable<MergeCacheEntry>
 
     private void TextAppend(string originalContent)
     {
-        var mergedContent = Merges.Aggregate(originalContent, (current, entry) => current + File.ReadAllText(entry.AbsolutePath));
-        File.WriteAllText(CachedAbsolutePath, mergedContent);
+        using var writer = new StreamWriter(CachedAbsolutePath);
+        writer.Write(originalContent);
+        foreach (var entry in Merges)
+        {
+            writer.Write(File.ReadAllText(entry.AbsolutePath));
+        }
     }
 
     public override string ToString()

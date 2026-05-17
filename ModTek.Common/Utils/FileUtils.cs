@@ -69,13 +69,26 @@ internal static class FileUtils
 
     internal static List<string> FindFiles(string basePath, params string[] suffixes)
     {
-        var query = Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories)
-            .Where(path => !FileIsOnDenyList(path));
-        if (suffixes != null && suffixes.Length > 0)
+        // EnumerateFiles is lazy — avoids materialising the full directory listing
+        // before filtering. When only one suffix is requested pass it to the OS so
+        // the kernel can filter instead of pulling every file across the syscall boundary.
+        IEnumerable<string> raw;
+        if (suffixes == null || suffixes.Length == 0)
         {
-            query = query.Where(path => suffixes.Any(p => path.EndsWith(p, StringComparison.OrdinalIgnoreCase)));
+            raw = Directory.EnumerateFiles(basePath, "*.*", SearchOption.AllDirectories);
         }
-        return query.ToList();
+        else if (suffixes.Length == 1)
+        {
+            raw = Directory.EnumerateFiles(basePath, "*" + suffixes[0], SearchOption.AllDirectories);
+            return raw.Where(p => !FileIsOnDenyList(p)).ToList();
+        }
+        else
+        {
+            var suffixSet = new HashSet<string>(suffixes, StringComparer.OrdinalIgnoreCase);
+            raw = Directory.EnumerateFiles(basePath, "*.*", SearchOption.AllDirectories)
+                .Where(p => suffixSet.Contains(Path.GetExtension(p)));
+        }
+        return raw.Where(p => !FileIsOnDenyList(p)).ToList();
     }
 
     internal const string JSON_TYPE = ".json";

@@ -18,10 +18,12 @@ public class ModEntry
     public string Path { get; set; }
 
     // directory based methods, used during normalization
-    public bool IsDirectory => Directory.Exists(AbsolutePath);
+    private bool? _isDirectory;
+    public bool IsDirectory => _isDirectory ??= Directory.Exists(AbsolutePath);
 
     // file based methods
-    public bool IsFile => File.Exists(AbsolutePath);
+    private bool? _isFile;
+    public bool IsFile => _isFile ??= File.Exists(AbsolutePath);
     private DateTime UpdatedOn = VersionManifestEntryExtensions.UpdatedOnLazyTracking;
     internal DateTime GetUpdatedOnForTracking()
     {

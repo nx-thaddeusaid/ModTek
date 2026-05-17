@@ -10,8 +10,24 @@ internal static class HBSJsonUtils
 {
     internal static JObject ParseGameJSONFile(string path, bool log = false)
     {
-        var content = File.ReadAllText(path);
-        return ParseGameJSON(content, log);
+        // Fast path: stream directly into JObject without allocating the full string.
+        // Fails for HBS-format files with // comments or missing commas; fall back to the
+        // full string pipeline in that case. The file is only read once per path.
+        try
+        {
+            using var stream = File.OpenRead(path);
+            using var textReader = new StreamReader(stream);
+            using var jsonReader = new Newtonsoft.Json.JsonTextReader(textReader)
+            {
+                DateParseHandling = Newtonsoft.Json.DateParseHandling.None,
+            };
+            return JObject.Load(jsonReader);
+        }
+        catch
+        {
+            var content = File.ReadAllText(path);
+            return ParseGameJSON(content, log);
+        }
     }
 
     internal static JObject ParseGameJSON(string content, bool log = false)
