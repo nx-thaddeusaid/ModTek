@@ -29,7 +29,7 @@ internal static class LoggingFeature
         _consoleLog = _settings.UnityConsoleAppenderEnabled ? new AppenderUnityConsole(_settings.UnityConsoleAppender) : null;
 
         {
-            var mainLogPath =  Path.Combine(FilePaths.TempModTekDirectory, _settings.MainLogFilePath);
+            var mainLogPath = Path.Combine(FilePaths.TempModTekDirectory, _settings.MainLogFilePath);
             _mainLog = new AppenderFile(mainLogPath, _settings.MainLog);
         }
         AddAppenders(FilePaths.TempModTekDirectory, _settings.Logs);

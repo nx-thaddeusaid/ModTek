@@ -16,7 +16,7 @@ internal sealed class MTStopwatchWithSampling : MTStopwatch
     private readonly ulong _sampleIfRandomSmallerOrEqualsTo;
     private readonly FastRandom _random = new();
 
-    internal double OverheadPerMeasurementWithSampling => OverheadPerMeasurement/_samplingInterval + s_samplingCheckOverhead;
+    internal double OverheadPerMeasurementWithSampling => OverheadPerMeasurement / _samplingInterval + s_samplingCheckOverhead;
     internal double OverheadPerMeasurementWithoutSampling => OverheadPerMeasurement;
 
     private static readonly double s_samplingCheckOverhead;
@@ -34,7 +34,7 @@ internal sealed class MTStopwatchWithSampling : MTStopwatch
                 dontOptimize = ws.ShouldMeasure();
             }
             var end = GetTimestamp();
-            s_samplingCheckOverhead = (end - start)/(double)Count - s_timestampOverhead;
+            s_samplingCheckOverhead = (end - start) / (double)Count - s_timestampOverhead;
             DontOptimize = dontOptimize;
         }
     }

@@ -11,7 +11,7 @@ internal class FileStreamImpl : ILogStream
             path,
             FileMode.Append,
             FileAccess.Write,
-            FileShare.ReadWrite|FileShare.Delete,
+            FileShare.ReadWrite | FileShare.Delete,
             1, // small buffer size is equivalent to AutoFlush
             FileOptions.None
         );

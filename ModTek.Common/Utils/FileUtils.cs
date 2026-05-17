@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -195,10 +195,11 @@ internal static class FileUtils
     public static StreamWriter LogStream(string path)
     {
         return new StreamWriter(
-            File.Open(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite|FileShare.Delete),
+            File.Open(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete),
             Encoding.UTF8,
             32 * 1024
-        ) {
+        )
+        {
             AutoFlush = true
         };
     }

@@ -110,7 +110,8 @@ internal class MergeCache
         {
             if (QueuedMerges.Remove(key))
             {
-                Log.Main.Warning?.Log($"Queued merges already exists for {entry.ToShortString()}, removing them.");                }
+                Log.Main.Warning?.Log($"Queued merges already exists for {entry.ToShortString()}, removing them.");
+            }
         }
         else
         {
@@ -169,7 +170,7 @@ internal class MergeCache
             var key = kv.Key;
             var queuedEntry = kv.Value;
 
-            yield return new ProgressReport(countCurrent++/countMax, sliderText, $"{key.Type}\n{key.Id}");
+            yield return new ProgressReport(countCurrent++ / countMax, sliderText, $"{key.Type}\n{key.Id}");
 
             if (CachedMerges.TryGetValue(key, out var cachedEntry))
             {

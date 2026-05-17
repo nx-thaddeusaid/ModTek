@@ -109,7 +109,7 @@ internal class DynamicShimInjector
         }
 
         var text = $"Loading shimmed assembly {name} from memory";
-        text += $", shimming took {(DateTime.Now-begin).TotalSeconds:#0.000}s";
+        text += $", shimming took {(DateTime.Now - begin).TotalSeconds:#0.000}s";
         text += ".";
         Logger.Main.Log(text);
     }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ internal static class ModLoader_Init
     }
 
     public static bool Prefix(UnityGameInstance __instance, Action callback)
-    {        
+    {
         if (ActiveOrDefaultSettings.userSettings == null)
         {
             UnityGameInstance.Instance.StartCoroutine(new ModLoader_Init_CallbackDelay(__instance, callback).waitforSettings());

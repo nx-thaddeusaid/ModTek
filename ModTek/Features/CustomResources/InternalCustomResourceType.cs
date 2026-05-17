@@ -1,4 +1,4 @@
-namespace ModTek.Features.CustomResources;
+﻿namespace ModTek.Features.CustomResources;
 
 internal enum InternalCustomResourceType
 {

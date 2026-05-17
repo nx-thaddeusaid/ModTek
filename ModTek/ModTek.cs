@@ -57,7 +57,8 @@ public static partial class ModTek
         }
     }
 
-    private static void Start() {
+    private static void Start()
+    {
         stopwatch.Start();
 
         Config = Configuration.FromDefaultFile();
@@ -122,7 +123,7 @@ public static partial class ModTek
 
         {
             var version = MetadataDatabase.Instance.ExecuteScalar<string>("select sqlite_version();");
-            Log.Main.Info?.Log("SQLite version "+ version);
+            Log.Main.Info?.Log("SQLite version " + version);
         }
 
         LoadUsingProgressPanel();

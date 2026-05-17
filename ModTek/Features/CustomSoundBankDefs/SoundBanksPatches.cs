@@ -17,7 +17,7 @@ internal static class CustomSoundHelper
 
     private static Dictionary<string, uint> guidIdMap(this WwiseManager manager)
     {
-        return (Dictionary<string, uint>) f_guidIdMap.GetValue(manager);
+        return (Dictionary<string, uint>)f_guidIdMap.GetValue(manager);
     }
 
     internal static void registerEvents(this SoundBankDef bank)
@@ -250,7 +250,7 @@ internal static class LoadedAudioBank_LoadBankExternal
             return false;
         }
         string filename = SoundBanksFeature.soundBanks[__instance.name].filename;
-        if(File.Exists(filename) == false)
+        if (File.Exists(filename) == false)
         {
             Log.Main.Warning?.Log($"Soundbank {filename} does not exists");
             return false;

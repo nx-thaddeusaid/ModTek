@@ -40,7 +40,8 @@ public static class HarmonyInterop
                         (add.prefixes.Any(p => p.method.ReturnType == typeof(bool)) && pInfo.prefixes.Any())
                         ||
                         (add.prefixes.Any() && pInfo.prefixes.Any(p => p.PatchMethod.ReturnType == typeof(bool)))
-                    ) {
+                    )
+                    {
                         Logging.Info($"Detected a mix of skippable and skipping prefixes, wrapping for harmony 1 interoperability");
                         PrefixesWrapped.Add(target);
                         pInfo.prefixes = Sync(add.prefixes, remove.prefixes, pInfo.prefixes);

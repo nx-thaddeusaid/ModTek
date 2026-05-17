@@ -23,7 +23,8 @@ internal static class LoadRequest_PopPendingRequest_Patch
             var deltaInSecondsMax = ModTek.Config.DataManagerUnfreezeDelta;
             var deltaInSecondsCurrent = Time.realtimeSinceStartup - lastNull;
 
-            if (deltaInSecondsCurrent >= deltaInSecondsMax) {
+            if (deltaInSecondsCurrent >= deltaInSecondsMax)
+            {
                 // logging just takes space and time
                 // Logging.Info?.Log($"LoadRequest unfreeze delta {deltaInSecondsCurrent:0.##}/{deltaInSecondsMax:0.##}");
                 __result = null;

@@ -48,7 +48,7 @@ internal static class CustomTagFeature
             .FirstOrDefault();
 
         // TODO: Can error out, test for that
-        var tagSetType = (TagSetType) customTagSet.TypeID;
+        var tagSetType = (TagSetType)customTagSet.TypeID;
 
         var tagSet = new TagSet(customTagSet.Tags);
         if (tagSet_MDD == null)
@@ -62,7 +62,7 @@ internal static class CustomTagFeature
         else
         {
             // Update
-            Log.Main.Info?.Log($"Updating tagset: {customTagSet.ID} to type: {(TagSetType) customTagSet.TypeID} and tags: {string.Join(",", customTagSet.Tags)}");
+            Log.Main.Info?.Log($"Updating tagset: {customTagSet.ID} to type: {(TagSetType)customTagSet.TypeID} and tags: {string.Join(",", customTagSet.Tags)}");
             MetadataDatabase.Instance.UpdateTagSet(customTagSet.ID, tagSet);
         }
     }

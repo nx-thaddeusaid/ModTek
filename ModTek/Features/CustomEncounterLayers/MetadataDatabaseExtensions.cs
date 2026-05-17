@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using BattleTech.Data;
 
 namespace ModTek.Features.CustomEncounterLayers;

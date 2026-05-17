@@ -139,7 +139,8 @@ internal class DebugDumpServer : MonoBehaviour
                 while (modtek_request.ready == false) { Thread.Sleep(10); }
                 response.Close();
             }
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.Main.Error?.Log(e.ToString());
         }

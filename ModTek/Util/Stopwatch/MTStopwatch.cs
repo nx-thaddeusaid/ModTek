@@ -24,7 +24,8 @@ internal class MTStopwatch
     private static double GetTimestampOverhead()
     {
         var overhead = 0d;
-        for (var r = 0; r < 100; r++) {
+        for (var r = 0; r < 100; r++)
+        {
             var start = System.Diagnostics.Stopwatch.GetTimestamp();
             const int Count = 1000;
             for (var l = 0; l < Count; l++)

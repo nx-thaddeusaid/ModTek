@@ -130,7 +130,7 @@ internal static class ModDefsDatabase
 
         // try loading each mod
         var countCurrent = 0;
-        var countMax = (float) ModLoadOrder.Count;
+        var countMax = (float)ModLoadOrder.Count;
         Log.Main.Info?.Log("");
         foreach (var modName in ModLoadOrder.ToList())
         {
@@ -159,7 +159,7 @@ internal static class ModDefsDatabase
                 continue;
             }
 
-            yield return new ProgressReport(countCurrent++/countMax, sliderText, $"{modDef.Name}\n{modDef.Version}", true);
+            yield return new ProgressReport(countCurrent++ / countMax, sliderText, $"{modDef.Name}\n{modDef.Version}", true);
 
             // expand the manifest (parses all JSON as well)
             if (!CheckManifest(modDef))
@@ -248,13 +248,14 @@ internal static class ModDefsDatabase
                 continue;
             }
             ModDefs.Add(modDef.Name, modDef);
-            foreach (var fe_mod in modDef.forceEnableMods) {
+            foreach (var fe_mod in modDef.forceEnableMods)
+            {
                 forceEnableMods.Add(fe_mod);
             }
         }
-        foreach(var fe_mod in forceEnableMods)
+        foreach (var fe_mod in forceEnableMods)
         {
-            if(allModDefs.TryGetValue(fe_mod, out var modToEnable))
+            if (allModDefs.TryGetValue(fe_mod, out var modToEnable))
             {
                 if (ModDefs.ContainsKey(fe_mod)) { continue; }
                 modToEnable.Enabled = true;

@@ -5,7 +5,7 @@ using HarmonyXInterop;
 
 namespace Harmony
 {
-	internal class PatchHandler
+    internal class PatchHandler
     {
         private MethodBase mb;
         private PatchInfoWrapper previousState = new PatchInfoWrapper
@@ -15,7 +15,7 @@ namespace Harmony
             transpilers = new PatchMethod[0],
             finalizers = new PatchMethod[0]
         };
-        
+
         public void Apply()
         {
             PatchMethod[] ToPatchMethod(Patch[] patches)
@@ -38,58 +38,58 @@ namespace Harmony
                 transpilers = ToPatchMethod(info.transpilers),
                 finalizers = new PatchMethod[0]
             };
-            
+
             var add = new PatchInfoWrapper { finalizers = new PatchMethod[0] };
             var remove = new PatchInfoWrapper { finalizers = new PatchMethod[0] };
-            
+
             Diff(previousState.prefixes, state.prefixes, out add.prefixes, out remove.prefixes);
             Diff(previousState.postfixes, state.postfixes, out add.postfixes, out remove.postfixes);
             Diff(previousState.transpilers, state.transpilers, out add.transpilers, out remove.transpilers);
 
             previousState = state;
-            
+
             HarmonyInterop.ApplyPatch(mb, add, remove);
         }
-        
+
         static void Diff(PatchMethod[] last, PatchMethod[] curr, out PatchMethod[] add, out PatchMethod[] remove)
         {
-	        add = curr.Except(last, PatchMethodComparer.Instance).ToArray();
-	        remove = last.Except(curr, PatchMethodComparer.Instance).ToArray();
+            add = curr.Except(last, PatchMethodComparer.Instance).ToArray();
+            remove = last.Except(curr, PatchMethodComparer.Instance).ToArray();
         }
-        
+
         static Dictionary<MethodBase, PatchHandler> patchHandlers = new Dictionary<MethodBase, PatchHandler>();
-        
+
         internal static PatchHandler Get(MethodBase method)
         {
-	        lock (patchHandlers)
-	        {
-		        if (!patchHandlers.TryGetValue(method, out var handler))
-			        patchHandlers[method] = handler = new PatchHandler {mb = method};
-		        return handler;
-	        }
+            lock (patchHandlers)
+            {
+                if (!patchHandlers.TryGetValue(method, out var handler))
+                    patchHandlers[method] = handler = new PatchHandler { mb = method };
+                return handler;
+            }
         }
     }
-	
-	public static class HarmonySharedState
-	{
-		static Dictionary<MethodBase, PatchInfo> patchInfos = new Dictionary<MethodBase, PatchInfo>();
 
-		internal static PatchInfo GetPatchInfo(MethodBase method)
-		{
-			lock (patchInfos)
-			{
-				if (!patchInfos.TryGetValue(method, out var info))
-					patchInfos[method] = info = new PatchInfo();
-				return info;
-			}
-		}
+    public static class HarmonySharedState
+    {
+        static Dictionary<MethodBase, PatchInfo> patchInfos = new Dictionary<MethodBase, PatchInfo>();
 
-		internal static IEnumerable<MethodBase> GetPatchedMethods()
-		{
-			lock (patchInfos)
-			{
-				return patchInfos.Keys.ToList().AsEnumerable();
-			}
-		}
-	}
+        internal static PatchInfo GetPatchInfo(MethodBase method)
+        {
+            lock (patchInfos)
+            {
+                if (!patchInfos.TryGetValue(method, out var info))
+                    patchInfos[method] = info = new PatchInfo();
+                return info;
+            }
+        }
+
+        internal static IEnumerable<MethodBase> GetPatchedMethods()
+        {
+            lock (patchInfos)
+            {
+                return patchInfos.Keys.ToList().AsEnumerable();
+            }
+        }
+    }
 }

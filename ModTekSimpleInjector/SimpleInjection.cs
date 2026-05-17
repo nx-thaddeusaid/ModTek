@@ -18,7 +18,8 @@ internal class SimpleInjection
         string sourceFile,
         IAssemblyResolver resolver,
         MemberAddition addition
-    ) {
+    )
+    {
         Console.WriteLine($"Processing {addition}");
         var assemblyName = new AssemblyNameReference(addition.InAssembly, null);
 
@@ -43,7 +44,7 @@ internal class SimpleInjection
         modules.Add(resolver.Resolve(new AssemblyNameReference("System.Core", null)).MainModule);
         _resolveInModules = modules.ToArray();
 
-        _customAttribute = CreateCustomAttribute(_moduleDefinition,"ModTekSimpleInjector", "InjectedAttribute", [
+        _customAttribute = CreateCustomAttribute(_moduleDefinition, "ModTekSimpleInjector", "InjectedAttribute", [
             new ParameterInfo("source", sourceFile),
             new ParameterInfo("comment", addition.Comment)
         ]);
@@ -81,7 +82,8 @@ internal class SimpleInjection
         string @namespace,
         string name,
         ParameterInfo[] parameters
-    ) {
+    )
+    {
         var attributeTypeDefinition = moduleDefinition.GetType(@namespace, name);
         if (attributeTypeDefinition == null)
         {
@@ -169,7 +171,7 @@ internal class SimpleInjection
 
         TypeReference typeReference = _resolveInModules
             .Select(m => m.GetType(typeName))
-            .FirstOrDefault(t => t !=null);
+            .FirstOrDefault(t => t != null);
         if (typeReference == null)
         {
             throw new ArgumentException($"Unable to resolve type {typeName}");

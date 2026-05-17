@@ -36,68 +36,68 @@ internal class Instruction
             switch (Action)
             {
                 case MergeAction.Remove:
-                {
-                    if (jToken.Parent is JProperty)
                     {
-                        jToken.Parent.Remove();
-                    }
-                    else
-                    {
-                        jToken.Remove();
-                    }
+                        if (jToken.Parent is JProperty)
+                        {
+                            jToken.Parent.Remove();
+                        }
+                        else
+                        {
+                            jToken.Remove();
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case MergeAction.Replace:
-                {
-                    jToken.Replace(Value);
-                    break;
-                }
+                    {
+                        jToken.Replace(Value);
+                        break;
+                    }
                 case MergeAction.ArrayAdd:
-                {
-                    if (jToken is not JArray jArray)
                     {
-                        throw new Exception("JSONPath needs to point to an array");
-                    }
+                        if (jToken is not JArray jArray)
+                        {
+                            throw new Exception("JSONPath needs to point to an array");
+                        }
 
-                    jArray.Add(Value);
-                    break;
-                }
+                        jArray.Add(Value);
+                        break;
+                    }
                 case MergeAction.ArrayAddAfter:
-                {
-                    jToken.AddAfterSelf(Value);
-                    break;
-                }
+                    {
+                        jToken.AddAfterSelf(Value);
+                        break;
+                    }
                 case MergeAction.ArrayAddBefore:
-                {
-                    jToken.AddBeforeSelf(Value);
-                    break;
-                }
+                    {
+                        jToken.AddBeforeSelf(Value);
+                        break;
+                    }
                 case MergeAction.ObjectMerge:
-                {
-                    if (jToken is not JObject jObject1 || Value is not JObject jObject2)
                     {
-                        throw new Exception("JSONPath has to point to an object and Value has to be an object");
-                    }
+                        if (jToken is not JObject jObject1 || Value is not JObject jObject2)
+                        {
+                            throw new Exception("JSONPath has to point to an object and Value has to be an object");
+                        }
 
-                    // same behavior as partial json merging
-                    jObject1.Merge(jObject2, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-                    break;
-                }
+                        // same behavior as partial json merging
+                        jObject1.Merge(jObject2, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
+                        break;
+                    }
                 case MergeAction.ArrayConcat:
-                {
-                    if (jToken is not JArray jArray1 || Value is not JArray jArray2)
                     {
-                        throw new Exception("JSONPath has to point to an array and Value has to be an array");
-                    }
+                        if (jToken is not JArray jArray1 || Value is not JArray jArray2)
+                        {
+                            throw new Exception("JSONPath has to point to an array and Value has to be an array");
+                        }
 
-                    jArray1.Merge(jArray2, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
-                    break;
-                }
+                        jArray1.Merge(jArray2, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
+                        break;
+                    }
                 default:
-                {
-                    throw new Exception("Unhandled action");
-                }
+                    {
+                        throw new Exception("Unhandled action");
+                    }
             }
         }
     }

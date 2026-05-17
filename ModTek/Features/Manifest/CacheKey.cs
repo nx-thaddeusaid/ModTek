@@ -73,7 +73,7 @@ public class CacheKey : IEquatable<CacheKey>
             return false;
         }
 
-        return Equals((CacheKey) obj);
+        return Equals((CacheKey)obj);
     }
 
     public override int GetHashCode()

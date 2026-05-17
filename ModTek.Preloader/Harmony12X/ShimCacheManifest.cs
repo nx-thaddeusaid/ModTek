@@ -105,7 +105,7 @@ internal class ShimCacheManifest
         var text = $"Loading shimmed assembly from `{FileUtils.GetRelativePath(absolutePath)}` instead of `{FileUtils.GetRelativePath(originalAbsolutePath)}`";
         if (begin != null)
         {
-            text += $", shimming took {(DateTime.Now-begin.Value).TotalSeconds:#0.000}s";
+            text += $", shimming took {(DateTime.Now - begin.Value).TotalSeconds:#0.000}s";
         }
         text += ".";
         Logger.Main.Log(text);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech;
 
 namespace ModTek.Features.CustomDebugSettings.Patches;

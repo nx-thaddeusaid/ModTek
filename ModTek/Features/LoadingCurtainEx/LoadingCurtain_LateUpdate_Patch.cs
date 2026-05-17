@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech.UI;
 using ModTek.Features.LoadingCurtainEx.DataManagerStats;
 
@@ -20,7 +20,7 @@ internal static class LoadingCurtain_LateUpdate_Patch
         }
         catch (Exception e)
         {
-            Log.Main.Error?.Log("Failed running postfix", e);;
+            Log.Main.Error?.Log("Failed running postfix", e); ;
         }
     }
 }

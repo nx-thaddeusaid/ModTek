@@ -230,7 +230,7 @@ internal class MDDBCache
         var countMax = (float)reindexResources.Count;
         foreach (var key in reindexResources)
         {
-            yield return new ProgressReport(countCurrent++/countMax, sliderText, $"{key.Type}\n{key.Id}");
+            yield return new ProgressReport(countCurrent++ / countMax, sliderText, $"{key.Type}\n{key.Id}");
             var entry = BetterBTRL.Instance.EntryByIDAndType(key.Id, key.Type);
             CacheUpdate(entry);
         }

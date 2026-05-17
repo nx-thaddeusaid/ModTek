@@ -37,7 +37,7 @@ internal static class SoundBanksFeature
         var countMax = (float)entries.Length;
         foreach (var entry in entries)
         {
-            yield return new ProgressReport(countCurrent++/countMax, sliderText, entry.Id);
+            yield return new ProgressReport(countCurrent++ / countMax, sliderText, entry.Id);
             Log.Main.Info?.Log($"\tProcessing {entry.ToShortString()}");
             try
             {

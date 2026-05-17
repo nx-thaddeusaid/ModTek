@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using BattleTech;
@@ -22,7 +22,7 @@ internal static class GameTipList_ctor_Patch
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         return instructions.MethodReplacer(
-            AccessTools.Method(typeof(File), nameof(File.ReadAllText), new []{typeof(string)}),
+            AccessTools.Method(typeof(File), nameof(File.ReadAllText), new[] { typeof(string) }),
             AccessTools.Method(typeof(GameTipList_ctor_Patch), nameof(ReadAllText))
         );
     }

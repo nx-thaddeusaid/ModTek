@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ModTek.Features.Logging.LogStreamImpl;
 
 namespace ModTek.Features.Logging;

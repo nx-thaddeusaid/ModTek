@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech.BinkMedia;
 using BinkPlugin;
 using UnityEngine;
@@ -51,7 +51,7 @@ internal static class BinkMediaPlayer_Play_Patch
         __instance.binkh = info.Height;
 
         var loopCount = __instance.loopCount;
-        Bink.Loop(bink, (uint) loopCount);
+        Bink.Loop(bink, (uint)loopCount);
 
         var bmpTraverse = Traverse.Create(typeof(BinkMediaPlayer));
         var cr = bmpTraverse.Field("cr").GetValue<Coroutine>();

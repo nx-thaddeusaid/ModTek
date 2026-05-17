@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -220,7 +220,7 @@ internal class BetterBTRL
     {
         foreach (var obj in memoryStore)
         {
-            var versionManifestEntry = (VersionManifestEntry) obj;
+            var versionManifestEntry = (VersionManifestEntry)obj;
             var key = versionManifestEntry.Type.FromString();
             Dictionary<string, List<VersionManifestMemoryStore>> dictionary;
             List<VersionManifestMemoryStore> list;

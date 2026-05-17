@@ -30,16 +30,16 @@ internal static class FastSimd
         prefix += size;
         text += size;
         { // 4 longs is a sweat spot
-            const int BatchSize = 4 * sizeof(ulong)/sizeof(ushort);
+            const int BatchSize = 4 * sizeof(ulong) / sizeof(ushort);
             for (; size >= BatchSize; size -= BatchSize)
             {
                 prefix -= BatchSize;
                 text -= BatchSize;
                 if (
-                    *((ulong*)prefix+3) != *((ulong*)text+3)
-                    || *((ulong*)prefix+2) != *((ulong*)text+2)
-                    || *((ulong*)prefix+1) != *((ulong*)text+1)
-                    || *((ulong*)prefix+0) != *((ulong*)text+0)
+                    *((ulong*)prefix + 3) != *((ulong*)text + 3)
+                    || *((ulong*)prefix + 2) != *((ulong*)text + 2)
+                    || *((ulong*)prefix + 1) != *((ulong*)text + 1)
+                    || *((ulong*)prefix + 0) != *((ulong*)text + 0)
                     )
                 {
                     return false;
@@ -47,7 +47,7 @@ internal static class FastSimd
             }
         }
         {
-            const int BatchSize = sizeof(ulong)/sizeof(ushort);
+            const int BatchSize = sizeof(ulong) / sizeof(ushort);
             for (; size >= BatchSize; size -= BatchSize)
             {
                 prefix -= BatchSize;
@@ -59,7 +59,7 @@ internal static class FastSimd
             }
         }
         {
-            const int BatchSize = sizeof(ushort)/sizeof(ushort);
+            const int BatchSize = sizeof(ushort) / sizeof(ushort);
             for (; size >= BatchSize; size -= BatchSize)
             {
                 prefix -= BatchSize;
@@ -218,7 +218,7 @@ internal static class FastSimd
 
         for (var step = 0; step < Steps; step++)
         {
-            if (memCpyTicks[step] > byteBufferTicks[step] )
+            if (memCpyTicks[step] > byteBufferTicks[step])
             {
                 return Math.Max((step - 1) * StepSize + MinSize, MinSize);
             }

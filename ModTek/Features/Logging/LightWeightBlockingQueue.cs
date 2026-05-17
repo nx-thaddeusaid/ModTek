@@ -120,7 +120,7 @@ internal class LightWeightBlockingQueue
                     // if it is full, any further optimizations would just wait for the slow I/O writer thread anyway
                 }
             }
-            
+
             Thread.SpinWait(4); // main thread should always try to dispatch asap, never wait that much!
         }
     }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HBS;
 using HBS.Util;
@@ -24,7 +24,7 @@ internal static class JSONSerializationUtility_RehydrateObjectFromDictionary_Pat
         return ModTek.Enabled && ModTek.Config.ProfilerEnabled;
     }
 
-    private static readonly MTStopwatchWithCallback s_stopwatch  = new(stats =>
+    private static readonly MTStopwatchWithCallback s_stopwatch = new(stats =>
         {
             var id = "JSONSerializationUtility.RehydrateObjectFromDictionary";
             Log.Main.Trace?.Log($"{id} was called {stats.Count} times, taking a total of {stats.TotalTime} with an average of {stats.AverageNanoseconds}ns.");

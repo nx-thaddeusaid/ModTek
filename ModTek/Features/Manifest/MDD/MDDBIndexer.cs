@@ -1,4 +1,4 @@
-using BattleTech;
+﻿using BattleTech;
 using BattleTech.Data;
 using BattleTech.Framework;
 using ModTek.Features.CustomEncounterLayers;
@@ -27,11 +27,11 @@ internal static class MDDBIndexer
         switch (type)
         {
             case InternalCustomResourceType.EncounterLayer:
-            {
-                var encounterLayer = EncounterLayer.FromJSON(json);
-                mddb.UpdateEncounterLayer(encounterLayer);
-                break;
-            }
+                {
+                    var encounterLayer = EncounterLayer.FromJSON(json);
+                    mddb.UpdateEncounterLayer(encounterLayer);
+                    break;
+                }
         }
     }
 
@@ -43,69 +43,69 @@ internal static class MDDBIndexer
         switch (resourceType)
         {
             case BattleTechResourceType.ContractOverride:
-            {
-                var contractOverride = new ContractOverride();
-                contractOverride.FromJSON(json);
-                contractOverride.FullRehydrate();
-                mddb.UpdateContract(id, contractOverride);
-                break;
-            }
+                {
+                    var contractOverride = new ContractOverride();
+                    contractOverride.FromJSON(json);
+                    contractOverride.FullRehydrate();
+                    mddb.UpdateContract(id, contractOverride);
+                    break;
+                }
             case BattleTechResourceType.LanceDef:
-            {
-                var lanceDef = new LanceDef();
-                lanceDef.FromJSON(json);
-                mddb.UpdateLanceDef(lanceDef);
-                break;
-            }
+                {
+                    var lanceDef = new LanceDef();
+                    lanceDef.FromJSON(json);
+                    mddb.UpdateLanceDef(lanceDef);
+                    break;
+                }
             case BattleTechResourceType.PilotDef:
-            {
-                var pilotDef = new PilotDef();
-                pilotDef.FromJSON(json);
-                mddb.UpdatePilotDef(pilotDef);
-                break;
-            }
+                {
+                    var pilotDef = new PilotDef();
+                    pilotDef.FromJSON(json);
+                    mddb.UpdatePilotDef(pilotDef);
+                    break;
+                }
             case BattleTechResourceType.SimGameEventDef:
-            {
-                var simGameEventDef = new SimGameEventDef();
-                simGameEventDef.FromJSON(json);
-                mddb.UpdateEventDef(simGameEventDef);
-                break;
-            }
+                {
+                    var simGameEventDef = new SimGameEventDef();
+                    simGameEventDef.FromJSON(json);
+                    mddb.UpdateEventDef(simGameEventDef);
+                    break;
+                }
             case BattleTechResourceType.MechDef:
-            {
-                var mechDef = new MechDef();
-                mechDef.FromJSON(json);
-                mddb.UpdateUnitDef(mechDef);
-                break;
-            }
+                {
+                    var mechDef = new MechDef();
+                    mechDef.FromJSON(json);
+                    mddb.UpdateUnitDef(mechDef);
+                    break;
+                }
             case BattleTechResourceType.WeaponDef:
-            {
-                var weaponDef = new WeaponDef();
-                weaponDef.FromJSON(json);
-                mddb.UpdateWeaponDef(weaponDef);
-                break;
-            }
+                {
+                    var weaponDef = new WeaponDef();
+                    weaponDef.FromJSON(json);
+                    mddb.UpdateWeaponDef(weaponDef);
+                    break;
+                }
             case BattleTechResourceType.TurretDef:
-            {
-                var turretDef = new TurretDef();
-                turretDef.FromJSON(json);
-                mddb.UpdateUnitDef(turretDef);
-                break;
-            }
+                {
+                    var turretDef = new TurretDef();
+                    turretDef.FromJSON(json);
+                    mddb.UpdateUnitDef(turretDef);
+                    break;
+                }
             case BattleTechResourceType.VehicleDef:
-            {
-                var vehicleDef = new VehicleDef();
-                vehicleDef.FromJSON(json);
-                mddb.UpdateUnitDef(vehicleDef);
-                break;
-            }
+                {
+                    var vehicleDef = new VehicleDef();
+                    vehicleDef.FromJSON(json);
+                    mddb.UpdateUnitDef(vehicleDef);
+                    break;
+                }
             case BattleTechResourceType.UpgradeDef:
-            {
-                var upgradeDef = new UpgradeDef();
-                upgradeDef.FromJSON(json);
-                mddb.UpdateUpgradeDef(upgradeDef);
-                break;
-            }
+                {
+                    var upgradeDef = new UpgradeDef();
+                    upgradeDef.FromJSON(json);
+                    mddb.UpdateUpgradeDef(upgradeDef);
+                    break;
+                }
         }
     }
 }

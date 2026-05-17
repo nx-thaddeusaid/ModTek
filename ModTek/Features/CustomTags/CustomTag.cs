@@ -1,4 +1,4 @@
-using BattleTech.Data;
+﻿using BattleTech.Data;
 using Newtonsoft.Json;
 
 namespace ModTek.Features.CustomTags;

@@ -41,7 +41,7 @@ namespace HarmonyXInterop
     public class PatchMethodComparer : IEqualityComparer<PatchMethod>
     {
         public static PatchMethodComparer Instance { get; } = new PatchMethodComparer();
-        
+
         public bool Equals(PatchMethod x, PatchMethod y)
         {
             if (ReferenceEquals(x, y)) return true;

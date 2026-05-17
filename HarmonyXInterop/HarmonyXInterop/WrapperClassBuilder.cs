@@ -28,7 +28,7 @@ internal class WrapperClassBuilder
     }
 
     private static readonly ConstructorInfo UnverifiableCodeAttributeConstructorInfo = typeof(UnverifiableCodeAttribute).GetConstructor(Type.EmptyTypes);
-    private static readonly ConstructorInfo IgnoresAccessChecksToAttributeConstructorInfo = typeof (IgnoresAccessChecksToAttribute).GetConstructor(new[] { typeof (string) });
+    private static readonly ConstructorInfo IgnoresAccessChecksToAttributeConstructorInfo = typeof(IgnoresAccessChecksToAttribute).GetConstructor(new[] { typeof(string) });
     private static readonly Type BoolRefType = typeof(bool).MakeByRefType();
     private static long uniqueCounter;
 
@@ -51,7 +51,7 @@ internal class WrapperClassBuilder
         var module = assembly.DefineDynamicModule(moduleName);
 
         assembly.SetCustomAttribute(new(UnverifiableCodeAttributeConstructorInfo, Array.Empty<object>()));
-        assembly.SetCustomAttribute(new(IgnoresAccessChecksToAttributeConstructorInfo, new object[] { assemblyName} ));
+        assembly.SetCustomAttribute(new(IgnoresAccessChecksToAttributeConstructorInfo, new object[] { assemblyName }));
 
         TypeBuilder typeBuilder = null;
         { // replicate nested structure as __state is based on method.DeclaredType.FullName

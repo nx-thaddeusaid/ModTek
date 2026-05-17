@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using BattleTech.UI;
 using ModTek.Common.Utils;
 using ModTek.Misc;

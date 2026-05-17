@@ -23,7 +23,8 @@ jobs:
         with:
           dotnet-version: '8.x'
       - name: dotnet format
-        run: dotnet format --verify-no-changes
+        run: |
+          find . -name "*.csproj" | xargs -I{} dotnet format whitespace --verify-no-changes {}
 
   build:
     uses: ./.github/workflows/mod-builder.yml

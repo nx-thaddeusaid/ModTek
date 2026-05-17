@@ -94,7 +94,7 @@ internal class FileVersionTuple : IEquatable<FileVersionTuple>
             return false;
         }
 
-        return Equals((FileVersionTuple) obj);
+        return Equals((FileVersionTuple)obj);
     }
 
     public override int GetHashCode()

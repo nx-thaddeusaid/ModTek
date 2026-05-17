@@ -60,11 +60,11 @@ public class ModDefEx : IEquatable<ModDefEx>
         public string Id { get; set; } = string.Empty;
         public override int GetHashCode()
         {
-            return Id.GetHashCode()+Type.GetHashCode();
+            return Id.GetHashCode() + Type.GetHashCode();
         }
         public override bool Equals(object obj)
         {
-            if(obj is RequestAtBattleStart b)
+            if (obj is RequestAtBattleStart b)
             {
                 return Type == b.Type && Id == b.Id;
             }

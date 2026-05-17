@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global

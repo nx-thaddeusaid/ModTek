@@ -77,11 +77,11 @@ internal static class ModsManifest
         Log.Main.Info?.LogIf(mods.Count > 0, "Processing Mod Manifests...");
 
         var countCurrent = 0;
-        var countMax = (float) mods.Count;
+        var countMax = (float)mods.Count;
 
         foreach (var modDef in mods)
         {
-            yield return new ProgressReport(countCurrent++/countMax, sliderText, modDef.Name, true);
+            yield return new ProgressReport(countCurrent++ / countMax, sliderText, modDef.Name, true);
 
             AddImplicitManifest(modDef);
 
@@ -134,7 +134,7 @@ internal static class ModsManifest
         }
         else if (entry.IsDirectory)
         {
-            var patterns = entry.Type == nameof(SoundBankDef) ? new []{FileUtils.JSON_TYPE} : null;
+            var patterns = entry.Type == nameof(SoundBankDef) ? new[] { FileUtils.JSON_TYPE } : null;
             foreach (var file in FileUtils.FindFiles(entry.AbsolutePath, patterns))
             {
                 var copy = entry.copy();

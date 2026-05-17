@@ -55,7 +55,10 @@ class AssemblyCache : IAssemblyResolver
         // this represents the loaded assemblies from the Managed directory when the injectors run
         string[] alreadyLoadedAssemblies =
         [
-            "mscorlib", "System", "System.Core", "Mono.Security"
+            "mscorlib",
+            "System",
+            "System.Core",
+            "Mono.Security"
         ];
         string[] searchDirectories =
         [

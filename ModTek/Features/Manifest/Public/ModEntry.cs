@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using BattleTech;
@@ -59,7 +59,7 @@ public class ModEntry
 
     public ModEntry copy()
     {
-        return (ModEntry) MemberwiseClone();
+        return (ModEntry)MemberwiseClone();
     }
 
     [JsonIgnore]

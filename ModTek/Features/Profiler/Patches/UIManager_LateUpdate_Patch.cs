@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech.UI;
 
 namespace ModTek.Features.Profiler.Patches;

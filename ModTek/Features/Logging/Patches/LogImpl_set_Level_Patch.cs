@@ -43,7 +43,7 @@ internal static class LogImpl_set_Level_Patch
         );
     }
 
-    private static R Let<P, R>(this P s, Func<P, R> func) where P: notnull
+    private static R Let<P, R>(this P s, Func<P, R> func) where P : notnull
     {
         return func(s);
     }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech;
 using BattleTech.Data;
 using ModTek.Features.Manifest.Mods;
@@ -12,15 +12,16 @@ internal static class Contract_RequestConversations_Patch
     {
         try
         {
-            foreach(var modDef in ModDefsDatabase.ModDefs)
+            foreach (var modDef in ModDefsDatabase.ModDefs)
             {
-                foreach(var resToRequest in modDef.Value.requestAtBattleStarts)
+                foreach (var resToRequest in modDef.Value.requestAtBattleStarts)
                 {
-                    if(__instance.DataManager.Exists(resToRequest.Type, resToRequest.Id))
+                    if (__instance.DataManager.Exists(resToRequest.Type, resToRequest.Id))
                     {
                         continue;
                     }
-                    if(__instance.DataManager.ResourceLocator.EntryByID(resToRequest.Id, resToRequest.Type) == null) {
+                    if (__instance.DataManager.ResourceLocator.EntryByID(resToRequest.Id, resToRequest.Type) == null)
+                    {
                         Log.Main.Warning?.Log($"Absent in data manager {resToRequest.Id}:{resToRequest.Type}");
                         continue;
                     }
@@ -29,7 +30,7 @@ internal static class Contract_RequestConversations_Patch
                 }
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Log.Main.Error?.Log(e);
         }

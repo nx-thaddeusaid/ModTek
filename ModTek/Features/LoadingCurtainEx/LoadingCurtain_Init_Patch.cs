@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BattleTech.UI;
 using ModTek.Features.LoadingCurtainEx.DataManagerStats;
 

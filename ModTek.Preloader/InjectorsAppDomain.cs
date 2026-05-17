@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ModTek.Common.Globals;
 using ModTek.Injectors;
 

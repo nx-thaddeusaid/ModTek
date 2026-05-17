@@ -1,4 +1,4 @@
-using BattleTech.Data;
+﻿using BattleTech.Data;
 using ModTek.Misc;
 
 // ReSharper disable InconsistentNaming

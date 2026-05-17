@@ -171,7 +171,7 @@ internal class MergeCacheEntry : IEquatable<MergeCacheEntry>
             return false;
         }
 
-        return Equals((MergeCacheEntry) obj);
+        return Equals((MergeCacheEntry)obj);
     }
 
     public override int GetHashCode()

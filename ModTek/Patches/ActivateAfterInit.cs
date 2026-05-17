@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global

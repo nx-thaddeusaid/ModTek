@@ -36,7 +36,7 @@ internal struct MTLoggerMessageDto
     // or this is set
     internal bool FlushToDisk => FlushToDiskPostEvent != null;
     internal ManualResetEventSlim FlushToDiskPostEvent;
-    
+
     internal TimeSpan StartupTime()
     {
         return s_unityStartupTime.Add(GetElapsedSinceInitial());

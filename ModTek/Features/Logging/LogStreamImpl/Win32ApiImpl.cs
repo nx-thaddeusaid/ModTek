@@ -19,7 +19,7 @@ internal class Win32ApiImpl : ILogStream
         _handle = CreateFile(
             Path.GetFullPath(path),
             GENERIC_WRITE,
-            FileShare.ReadWrite|FileShare.Delete,
+            FileShare.ReadWrite | FileShare.Delete,
             null,
             FileMode.Create,
             FILE_ATTRIBUTE_NORMAL,

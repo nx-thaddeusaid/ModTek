@@ -13,7 +13,7 @@ internal class MonoIoFileStreamImpl : ILogStream
             path,
             FileMode.Append,
             FileAccess.Write,
-            FileShare.ReadWrite|FileShare.Delete,
+            FileShare.ReadWrite | FileShare.Delete,
             1, // minimum size allowed, can't disable the buffer otherwise
             FileOptions.None
         );

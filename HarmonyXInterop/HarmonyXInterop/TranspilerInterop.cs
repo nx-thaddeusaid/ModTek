@@ -59,7 +59,7 @@ namespace HarmonyXInterop
         private static readonly Dictionary<MethodInfo, MethodInfo> Wrappers = new Dictionary<MethodInfo, MethodInfo>();
 
         private static readonly MethodInfo ResolveToken = AccessTools.Method(typeof(MethodBase),
-            nameof(MethodBase.GetMethodFromHandle), new[] {typeof(RuntimeMethodHandle)});
+            nameof(MethodBase.GetMethodFromHandle), new[] { typeof(RuntimeMethodHandle) });
 
         private static readonly MethodInfo ApplyTranspilerMethod =
             AccessTools.Method(typeof(TranspilerInterop), nameof(ApplyTranspiler));
@@ -137,7 +137,7 @@ namespace HarmonyXInterop
                 var value = trvSrc.GetValue();
 
                 if (!(trvDest.FieldExists() is false))
-                    return namePath == nameof(CodeInstruction.opcode) ? ReplaceShortJumps((OpCode) value) : value;
+                    return namePath == nameof(CodeInstruction.opcode) ? ReplaceShortJumps((OpCode)value) : value;
                 nonExisting[namePath] = value;
                 return null;
             });
@@ -263,7 +263,7 @@ namespace HarmonyXInterop
             {
                 var elementTo = ConvertInstruction(elementType, op, out var unassigned);
                 unassignedValues.Add(elementTo, unassigned);
-                _ = listAdd.Invoke(list, new[] {elementTo});
+                _ = listAdd.Invoke(list, new[] { elementTo });
                 // cannot yield return 'elementTo' here because we have an out parameter in the method
             }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using HBS.Logging;
 
@@ -33,7 +33,7 @@ internal static class LogLevelExtension
 
     internal static bool TryParse(string text, out LogLevel logLevel)
     {
-        if ("TRACE".Equals(text, StringComparison.OrdinalIgnoreCase) )
+        if ("TRACE".Equals(text, StringComparison.OrdinalIgnoreCase))
         {
             logLevel = (LogLevel)TraceLogLevel;
             return true;

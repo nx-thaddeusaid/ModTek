@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,296 +6,296 @@ using System.Reflection.Emit;
 
 namespace Harmony
 {
-	public class PatchProcessor
-	{
-		static object locker = new object();
+    public class PatchProcessor
+    {
+        static object locker = new object();
 
-		readonly HarmonyInstance instance;
+        readonly HarmonyInstance instance;
 
-		readonly Type container;
-		readonly HarmonyMethod containerAttributes;
+        readonly Type container;
+        readonly HarmonyMethod containerAttributes;
 
-		List<MethodBase> originals = new List<MethodBase>();
-		HarmonyMethod prefix;
-		HarmonyMethod postfix;
-		HarmonyMethod transpiler;
+        List<MethodBase> originals = new List<MethodBase>();
+        HarmonyMethod prefix;
+        HarmonyMethod postfix;
+        HarmonyMethod transpiler;
 
-		public PatchProcessor(HarmonyInstance instance, Type type, HarmonyMethod attributes)
-		{
-			this.instance = instance;
-			container = type;
-			containerAttributes = attributes ?? new HarmonyMethod(null);
-			prefix = containerAttributes.Clone();
-			postfix = containerAttributes.Clone();
-			transpiler = containerAttributes.Clone();
-			PrepareType();
-		}
+        public PatchProcessor(HarmonyInstance instance, Type type, HarmonyMethod attributes)
+        {
+            this.instance = instance;
+            container = type;
+            containerAttributes = attributes ?? new HarmonyMethod(null);
+            prefix = containerAttributes.Clone();
+            postfix = containerAttributes.Clone();
+            transpiler = containerAttributes.Clone();
+            PrepareType();
+        }
 
-		public PatchProcessor(HarmonyInstance instance, List<MethodBase> originals, HarmonyMethod prefix = null, HarmonyMethod postfix = null, HarmonyMethod transpiler = null)
-		{
-			this.instance = instance;
-			this.originals = originals;
-			this.prefix = prefix ?? new HarmonyMethod(null);
-			this.postfix = postfix ?? new HarmonyMethod(null);
-			this.transpiler = transpiler ?? new HarmonyMethod(null);
-		}
+        public PatchProcessor(HarmonyInstance instance, List<MethodBase> originals, HarmonyMethod prefix = null, HarmonyMethod postfix = null, HarmonyMethod transpiler = null)
+        {
+            this.instance = instance;
+            this.originals = originals;
+            this.prefix = prefix ?? new HarmonyMethod(null);
+            this.postfix = postfix ?? new HarmonyMethod(null);
+            this.transpiler = transpiler ?? new HarmonyMethod(null);
+        }
 
-		public static Patches GetPatchInfo(MethodBase method)
-		{
-			lock (locker)
-			{
-				var patchInfo = HarmonySharedState.GetPatchInfo(method);
-				if (patchInfo == null) return null;
-				return new Patches(patchInfo.prefixes, patchInfo.postfixes, patchInfo.transpilers);
-			}
-		}
+        public static Patches GetPatchInfo(MethodBase method)
+        {
+            lock (locker)
+            {
+                var patchInfo = HarmonySharedState.GetPatchInfo(method);
+                if (patchInfo == null) return null;
+                return new Patches(patchInfo.prefixes, patchInfo.postfixes, patchInfo.transpilers);
+            }
+        }
 
-		public static IEnumerable<MethodBase> AllPatchedMethods()
-		{
-			lock (locker)
-			{
-				return HarmonySharedState.GetPatchedMethods();
-			}
-		}
+        public static IEnumerable<MethodBase> AllPatchedMethods()
+        {
+            lock (locker)
+            {
+                return HarmonySharedState.GetPatchedMethods();
+            }
+        }
 
-		public List<DynamicMethod> Patch()
-		{
-			lock (locker)
-			{
-				var dynamicMethods = new List<DynamicMethod>();
-				foreach (var original in originals)
-				{
-					if (original == null)
-						throw new NullReferenceException("original");
+        public List<DynamicMethod> Patch()
+        {
+            lock (locker)
+            {
+                var dynamicMethods = new List<DynamicMethod>();
+                foreach (var original in originals)
+                {
+                    if (original == null)
+                        throw new NullReferenceException("original");
 
-					var individualPrepareResult = RunMethod<HarmonyPrepare, bool>(true, original);
-					if (individualPrepareResult)
-					{
-						var patchInfo = HarmonySharedState.GetPatchInfo(original);
-						if (patchInfo == null) patchInfo = new PatchInfo();
+                    var individualPrepareResult = RunMethod<HarmonyPrepare, bool>(true, original);
+                    if (individualPrepareResult)
+                    {
+                        var patchInfo = HarmonySharedState.GetPatchInfo(original);
+                        if (patchInfo == null) patchInfo = new PatchInfo();
 
-						PatchFunctions.AddPrefix(patchInfo, instance.Id, prefix);
-						PatchFunctions.AddPostfix(patchInfo, instance.Id, postfix);
-						PatchFunctions.AddTranspiler(patchInfo, instance.Id, transpiler);
-						
-						PatchHandler.Get(original).Apply();
+                        PatchFunctions.AddPrefix(patchInfo, instance.Id, prefix);
+                        PatchFunctions.AddPostfix(patchInfo, instance.Id, postfix);
+                        PatchFunctions.AddTranspiler(patchInfo, instance.Id, transpiler);
 
-						RunMethod<HarmonyCleanup>(original);
-					}
-				}
-				return dynamicMethods;
-			}
-		}
+                        PatchHandler.Get(original).Apply();
 
-		public void Unpatch(HarmonyPatchType type, string harmonyID)
-		{
-			lock (locker)
-			{
-				foreach (var original in originals)
-				{
-					var patchInfo = HarmonySharedState.GetPatchInfo(original);
-					if (patchInfo == null) patchInfo = new PatchInfo();
+                        RunMethod<HarmonyCleanup>(original);
+                    }
+                }
+                return dynamicMethods;
+            }
+        }
 
-					if (type == HarmonyPatchType.All || type == HarmonyPatchType.Prefix)
-						PatchFunctions.RemovePrefix(patchInfo, harmonyID);
-					if (type == HarmonyPatchType.All || type == HarmonyPatchType.Postfix)
-						PatchFunctions.RemovePostfix(patchInfo, harmonyID);
-					if (type == HarmonyPatchType.All || type == HarmonyPatchType.Transpiler)
-						PatchFunctions.RemoveTranspiler(patchInfo, harmonyID);
-					
-					PatchHandler.Get(original).Apply();
-				}
-			}
-		}
+        public void Unpatch(HarmonyPatchType type, string harmonyID)
+        {
+            lock (locker)
+            {
+                foreach (var original in originals)
+                {
+                    var patchInfo = HarmonySharedState.GetPatchInfo(original);
+                    if (patchInfo == null) patchInfo = new PatchInfo();
 
-		public void Unpatch(MethodInfo patch)
-		{
-			lock (locker)
-			{
-				foreach (var original in originals)
-				{
-					var patchInfo = HarmonySharedState.GetPatchInfo(original);
-					if (patchInfo == null) patchInfo = new PatchInfo();
+                    if (type == HarmonyPatchType.All || type == HarmonyPatchType.Prefix)
+                        PatchFunctions.RemovePrefix(patchInfo, harmonyID);
+                    if (type == HarmonyPatchType.All || type == HarmonyPatchType.Postfix)
+                        PatchFunctions.RemovePostfix(patchInfo, harmonyID);
+                    if (type == HarmonyPatchType.All || type == HarmonyPatchType.Transpiler)
+                        PatchFunctions.RemoveTranspiler(patchInfo, harmonyID);
 
-					PatchFunctions.RemovePatch(patchInfo, patch);
-					PatchHandler.Get(original).Apply();
-				}
-			}
-		}
+                    PatchHandler.Get(original).Apply();
+                }
+            }
+        }
 
-		void PrepareType()
-		{
-			var mainPrepareResult = RunMethod<HarmonyPrepare, bool>(true);
-			if (mainPrepareResult == false)
-				return;
+        public void Unpatch(MethodInfo patch)
+        {
+            lock (locker)
+            {
+                foreach (var original in originals)
+                {
+                    var patchInfo = HarmonySharedState.GetPatchInfo(original);
+                    if (patchInfo == null) patchInfo = new PatchInfo();
 
-			var customOriginals = RunMethod<HarmonyTargetMethods, IEnumerable<MethodBase>>(null);
-			if (customOriginals != null)
-			{
-				originals = customOriginals.ToList();
-			}
-			else
-			{
-				var originalMethodType = containerAttributes.methodType;
+                    PatchFunctions.RemovePatch(patchInfo, patch);
+                    PatchHandler.Get(original).Apply();
+                }
+            }
+        }
 
-				// MethodType default is Normal
-				if (containerAttributes.methodType == null)
-					containerAttributes.methodType = MethodType.Normal;
+        void PrepareType()
+        {
+            var mainPrepareResult = RunMethod<HarmonyPrepare, bool>(true);
+            if (mainPrepareResult == false)
+                return;
 
-				var isPatchAll = Attribute.GetCustomAttribute(container, typeof(HarmonyPatchAll)) != null;
-				if (isPatchAll)
-				{
-					var type = containerAttributes.declaringType;
-					originals.AddRange(AccessTools.GetDeclaredConstructors(type).Cast<MethodBase>());
-					originals.AddRange(AccessTools.GetDeclaredMethods(type).Cast<MethodBase>());
-				}
-				else
-				{
-					var original = RunMethod<HarmonyTargetMethod, MethodBase>(null);
+            var customOriginals = RunMethod<HarmonyTargetMethods, IEnumerable<MethodBase>>(null);
+            if (customOriginals != null)
+            {
+                originals = customOriginals.ToList();
+            }
+            else
+            {
+                var originalMethodType = containerAttributes.methodType;
 
-					if (original == null)
-						original = GetOriginalMethod();
+                // MethodType default is Normal
+                if (containerAttributes.methodType == null)
+                    containerAttributes.methodType = MethodType.Normal;
 
-					if (original == null)
-					{
-						var info = "(";
-						info += "declaringType=" + containerAttributes.declaringType + ", ";
-						info += "methodName =" + containerAttributes.methodName + ", ";
-						info += "methodType=" + originalMethodType + ", ";
-						info += "argumentTypes=" + containerAttributes.argumentTypes.Description();
-						info += ")";
-						throw new ArgumentException("No target method specified for class " + container.FullName + " " + info);
-					}
+                var isPatchAll = Attribute.GetCustomAttribute(container, typeof(HarmonyPatchAll)) != null;
+                if (isPatchAll)
+                {
+                    var type = containerAttributes.declaringType;
+                    originals.AddRange(AccessTools.GetDeclaredConstructors(type).Cast<MethodBase>());
+                    originals.AddRange(AccessTools.GetDeclaredMethods(type).Cast<MethodBase>());
+                }
+                else
+                {
+                    var original = RunMethod<HarmonyTargetMethod, MethodBase>(null);
 
-					originals.Add(original);
-				}
-			}
+                    if (original == null)
+                        original = GetOriginalMethod();
 
-			PatchTools.GetPatches(container, out prefix.method, out postfix.method, out transpiler.method);
+                    if (original == null)
+                    {
+                        var info = "(";
+                        info += "declaringType=" + containerAttributes.declaringType + ", ";
+                        info += "methodName =" + containerAttributes.methodName + ", ";
+                        info += "methodType=" + originalMethodType + ", ";
+                        info += "argumentTypes=" + containerAttributes.argumentTypes.Description();
+                        info += ")";
+                        throw new ArgumentException("No target method specified for class " + container.FullName + " " + info);
+                    }
 
-			if (prefix.method != null)
-			{
-				if (prefix.method.IsStatic == false)
-					throw new ArgumentException("Patch method " + prefix.method.FullDescription() + " must be static");
+                    originals.Add(original);
+                }
+            }
 
-				var prefixAttributes = prefix.method.GetHarmonyMethods();
-				containerAttributes.Merge(HarmonyMethod.Merge(prefixAttributes)).CopyTo(prefix);
-			}
+            PatchTools.GetPatches(container, out prefix.method, out postfix.method, out transpiler.method);
 
-			if (postfix.method != null)
-			{
-				if (postfix.method.IsStatic == false)
-					throw new ArgumentException("Patch method " + postfix.method.FullDescription() + " must be static");
+            if (prefix.method != null)
+            {
+                if (prefix.method.IsStatic == false)
+                    throw new ArgumentException("Patch method " + prefix.method.FullDescription() + " must be static");
 
-				var postfixAttributes = postfix.method.GetHarmonyMethods();
-				containerAttributes.Merge(HarmonyMethod.Merge(postfixAttributes)).CopyTo(postfix);
-			}
+                var prefixAttributes = prefix.method.GetHarmonyMethods();
+                containerAttributes.Merge(HarmonyMethod.Merge(prefixAttributes)).CopyTo(prefix);
+            }
 
-			if (transpiler.method != null)
-			{
-				if (transpiler.method.IsStatic == false)
-					throw new ArgumentException("Patch method " + transpiler.method.FullDescription() + " must be static");
+            if (postfix.method != null)
+            {
+                if (postfix.method.IsStatic == false)
+                    throw new ArgumentException("Patch method " + postfix.method.FullDescription() + " must be static");
 
-				var infixAttributes = transpiler.method.GetHarmonyMethods();
-				containerAttributes.Merge(HarmonyMethod.Merge(infixAttributes)).CopyTo(transpiler);
-			}
-		}
+                var postfixAttributes = postfix.method.GetHarmonyMethods();
+                containerAttributes.Merge(HarmonyMethod.Merge(postfixAttributes)).CopyTo(postfix);
+            }
 
-		MethodBase GetOriginalMethod()
-		{
-			var attr = containerAttributes;
-			if (attr.declaringType == null) return null;
+            if (transpiler.method != null)
+            {
+                if (transpiler.method.IsStatic == false)
+                    throw new ArgumentException("Patch method " + transpiler.method.FullDescription() + " must be static");
 
-			switch (attr.methodType)
-			{
-				case MethodType.Normal:
-					if (attr.methodName == null)
-						return null;
-					return AccessTools.DeclaredMethod(attr.declaringType, attr.methodName, attr.argumentTypes);
+                var infixAttributes = transpiler.method.GetHarmonyMethods();
+                containerAttributes.Merge(HarmonyMethod.Merge(infixAttributes)).CopyTo(transpiler);
+            }
+        }
 
-				case MethodType.Getter:
-					if (attr.methodName == null)
-						return null;
-					return AccessTools.DeclaredProperty(attr.declaringType, attr.methodName).GetGetMethod(true);
+        MethodBase GetOriginalMethod()
+        {
+            var attr = containerAttributes;
+            if (attr.declaringType == null) return null;
 
-				case MethodType.Setter:
-					if (attr.methodName == null)
-						return null;
-					return AccessTools.DeclaredProperty(attr.declaringType, attr.methodName).GetSetMethod(true);
+            switch (attr.methodType)
+            {
+                case MethodType.Normal:
+                    if (attr.methodName == null)
+                        return null;
+                    return AccessTools.DeclaredMethod(attr.declaringType, attr.methodName, attr.argumentTypes);
 
-				case MethodType.Constructor:
-					return AccessTools.DeclaredConstructor(attr.declaringType, attr.argumentTypes);
+                case MethodType.Getter:
+                    if (attr.methodName == null)
+                        return null;
+                    return AccessTools.DeclaredProperty(attr.declaringType, attr.methodName).GetGetMethod(true);
 
-				case MethodType.StaticConstructor:
-					return AccessTools.GetDeclaredConstructors(attr.declaringType)
-						.Where(c => c.IsStatic)
-						.FirstOrDefault();
-			}
+                case MethodType.Setter:
+                    if (attr.methodName == null)
+                        return null;
+                    return AccessTools.DeclaredProperty(attr.declaringType, attr.methodName).GetSetMethod(true);
 
-			return null;
-		}
+                case MethodType.Constructor:
+                    return AccessTools.DeclaredConstructor(attr.declaringType, attr.argumentTypes);
 
-		T RunMethod<S, T>(T defaultIfNotExisting, params object[] parameters)
-		{
-			if (container == null)
-				return defaultIfNotExisting;
+                case MethodType.StaticConstructor:
+                    return AccessTools.GetDeclaredConstructors(attr.declaringType)
+                        .Where(c => c.IsStatic)
+                        .FirstOrDefault();
+            }
 
-			var methodName = typeof(S).Name.Replace("Harmony", "");
+            return null;
+        }
 
-			var paramList = new List<object> { instance };
-			paramList.AddRange(parameters);
-			var paramTypes = AccessTools.GetTypes(paramList.ToArray());
-			var method = PatchTools.GetPatchMethod<S>(container, methodName, paramTypes);
-			if (method != null && typeof(T).IsAssignableFrom(method.ReturnType))
-				return (T)method.Invoke(null, paramList.ToArray());
+        T RunMethod<S, T>(T defaultIfNotExisting, params object[] parameters)
+        {
+            if (container == null)
+                return defaultIfNotExisting;
 
-			method = PatchTools.GetPatchMethod<S>(container, methodName, new Type[] { typeof(HarmonyInstance) });
-			if (method != null && typeof(T).IsAssignableFrom(method.ReturnType))
-				return (T)method.Invoke(null, new object[] { instance });
+            var methodName = typeof(S).Name.Replace("Harmony", "");
 
-			method = PatchTools.GetPatchMethod<S>(container, methodName, Type.EmptyTypes);
-			if (method != null)
-			{
-				if (typeof(T).IsAssignableFrom(method.ReturnType))
-					return (T)method.Invoke(null, Type.EmptyTypes);
+            var paramList = new List<object> { instance };
+            paramList.AddRange(parameters);
+            var paramTypes = AccessTools.GetTypes(paramList.ToArray());
+            var method = PatchTools.GetPatchMethod<S>(container, methodName, paramTypes);
+            if (method != null && typeof(T).IsAssignableFrom(method.ReturnType))
+                return (T)method.Invoke(null, paramList.ToArray());
 
-				method.Invoke(null, Type.EmptyTypes);
-				return defaultIfNotExisting;
-			}
+            method = PatchTools.GetPatchMethod<S>(container, methodName, new Type[] { typeof(HarmonyInstance) });
+            if (method != null && typeof(T).IsAssignableFrom(method.ReturnType))
+                return (T)method.Invoke(null, new object[] { instance });
 
-			return defaultIfNotExisting;
-		}
+            method = PatchTools.GetPatchMethod<S>(container, methodName, Type.EmptyTypes);
+            if (method != null)
+            {
+                if (typeof(T).IsAssignableFrom(method.ReturnType))
+                    return (T)method.Invoke(null, Type.EmptyTypes);
 
-		void RunMethod<S>(params object[] parameters)
-		{
-			if (container == null)
-				return;
+                method.Invoke(null, Type.EmptyTypes);
+                return defaultIfNotExisting;
+            }
 
-			var methodName = typeof(S).Name.Replace("Harmony", "");
+            return defaultIfNotExisting;
+        }
 
-			var paramList = new List<object> { instance };
-			paramList.AddRange(parameters);
-			var paramTypes = AccessTools.GetTypes(paramList.ToArray());
-			var method = PatchTools.GetPatchMethod<S>(container, methodName, paramTypes);
-			if (method != null)
-			{
-				method.Invoke(null, paramList.ToArray());
-				return;
-			}
+        void RunMethod<S>(params object[] parameters)
+        {
+            if (container == null)
+                return;
 
-			method = PatchTools.GetPatchMethod<S>(container, methodName, new Type[] { typeof(HarmonyInstance) });
-			if (method != null)
-			{
-				method.Invoke(null, new object[] { instance });
-				return;
-			}
+            var methodName = typeof(S).Name.Replace("Harmony", "");
 
-			method = PatchTools.GetPatchMethod<S>(container, methodName, Type.EmptyTypes);
-			if (method != null)
-			{
-				method.Invoke(null, Type.EmptyTypes);
-				return;
-			}
-		}
-	}
+            var paramList = new List<object> { instance };
+            paramList.AddRange(parameters);
+            var paramTypes = AccessTools.GetTypes(paramList.ToArray());
+            var method = PatchTools.GetPatchMethod<S>(container, methodName, paramTypes);
+            if (method != null)
+            {
+                method.Invoke(null, paramList.ToArray());
+                return;
+            }
+
+            method = PatchTools.GetPatchMethod<S>(container, methodName, new Type[] { typeof(HarmonyInstance) });
+            if (method != null)
+            {
+                method.Invoke(null, new object[] { instance });
+                return;
+            }
+
+            method = PatchTools.GetPatchMethod<S>(container, methodName, Type.EmptyTypes);
+            if (method != null)
+            {
+                method.Invoke(null, Type.EmptyTypes);
+                return;
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-using HBS.Logging;
+﻿using HBS.Logging;
 
 namespace ModTek.Features.Logging.Patches;
 
