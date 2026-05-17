@@ -41,11 +41,11 @@ internal static class LoggingFeature
                 const string message = "UnhandledException";
                 if (e.ExceptionObject is Exception ex)
                 {
-                    Log.AppDomain.Debug?.Log(message, ex);
+                    Log.AppDomain.Error?.Log(message, ex);
                 }
                 else
                 {
-                    Log.AppDomain.Debug?.Log($"{message} {e.ExceptionObject} {Environment.StackTrace}");
+                    Log.AppDomain.Error?.Log($"{message} {e.ExceptionObject} {Environment.StackTrace}");
                 }
             };
         }
