@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using BattleTech;
 using BattleTech.Data;
 using ModTek.Common.Utils;
@@ -10,7 +12,7 @@ using ModTek.Features.CustomTags;
 using ModTek.Features.Manifest.BTRL;
 using ModTek.Misc;
 using ModTek.UI;
-using CacheDB = System.Collections.Generic.Dictionary<ModTek.Features.Manifest.CacheKey, ModTek.Features.Manifest.FileVersionTuple>;
+using CacheDB = System.Collections.Concurrent.ConcurrentDictionary<ModTek.Features.Manifest.CacheKey, ModTek.Features.Manifest.FileVersionTuple>;
 using CacheKeyValue = System.Collections.Generic.KeyValuePair<ModTek.Features.Manifest.CacheKey, ModTek.Features.Manifest.FileVersionTuple>;
 
 namespace ModTek.Features.Manifest.MDD;
@@ -44,8 +46,8 @@ internal class MDDBCache
         {
             try
             {
-                CachedItems = ModTekCacheStorage.ReadFrom<List<CacheKeyValue>>(PersistentFilePath)
-                    .ToDictionary(kv => kv.Key, kv => kv.Value);
+                CachedItems = new CacheDB(
+                    ModTekCacheStorage.ReadFrom<List<CacheKeyValue>>(PersistentFilePath));
                 MetadataDatabase.ReloadFromDisk();
                 Log.Main.Info?.Log("MDDBCache: Loaded.");
                 return;
@@ -164,10 +166,10 @@ internal class MDDBCache
         yield return new ProgressReport(0, sliderText, "", true);
 
         var rebuildIndex = false;
-        var reindexResources = new HashSet<CacheKey>();
+        var reindexResources = new ConcurrentBag<CacheKey>();
 
-        // find entries missing in cache
-        foreach (var type in BTConstants.MDDBTypes.OrderBy(x => x))
+        // find entries missing in cache — parallelised across types (each type is independent)
+        Parallel.ForEach(BTConstants.MDDBTypes.OrderBy(x => x), type =>
         {
             foreach (var manifestEntry in BetterBTRL.Instance.AllEntriesOfType(type).OrderBy(x => x.Id))
             {
@@ -184,7 +186,7 @@ internal class MDDBCache
                     if (!cachedEntry.Contains(manifestEntry))
                     {
                         Log.Main.Info?.Log($"MDDBCache: {key} outdated in cache.");
-                        CachedItems.Remove(key);
+                        CachedItems.TryRemove(key, out _);
                         reindexResources.Add(key);
                     }
                 }
@@ -194,7 +196,7 @@ internal class MDDBCache
                     reindexResources.Add(key);
                 }
             }
-        }
+        });
 
         // find entries that shouldn't be in cache (anymore)
         foreach (var kv in CachedItems)
@@ -210,7 +212,7 @@ internal class MDDBCache
         {
             Log.Main.Info?.Log("MDDBCache: Rebuilding.");
             Reset();
-            reindexResources.Clear();
+            reindexResources = new ConcurrentBag<CacheKey>();
             foreach (var type in BTConstants.MDDBTypes)
             {
                 foreach (var entry in BetterBTRL.Instance.AllEntriesOfType(type))
