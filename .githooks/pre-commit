@@ -1,9 +1,14 @@
 #!/bin/sh
-# Validates staged JSON files before commit.
+# Pre-commit hook: format-check C# sources and validate staged JSON.
 # Activate with: git config core.hooksPath .githooks
 
+# C# formatting — skipped if dotnet is not installed
+if command -v dotnet >/dev/null 2>&1; then
+  dotnet format --verify-no-changes || exit 1
+fi
+
+# Validate staged JSON files
 staged=$(git diff --cached --name-only --diff-filter=ACM | grep '\.json$')
 [ -z "$staged" ] && exit 0
-
 # shellcheck disable=SC2086
 python3 "$(git rev-parse --show-toplevel)/.githooks/validate_staged_json.py" $staged
