@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Required by BenchmarkDotNet -->
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <!--
+    Include ModTek.Common source files directly — same pattern as ModTek.Tests.
+    Avoids the BattleTechGameDir build prerequisite from CommonBase.props.
+  -->
+  <ItemGroup>
+    <Compile Include="../ModTek.Common/Utils/FileUtils.cs" />
+    <Compile Include="../ModTek.Common/Utils/CSharpUtils.cs" />
+    <Compile Include="../ModTek.Common/Utils/DictionaryExtensions.cs" />
+    <Compile Include="../ModTek.Common/Utils/AssemblyUtils.cs" />
+    <Compile Include="../ModTek.Common/Globals/Paths.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+</Project>
