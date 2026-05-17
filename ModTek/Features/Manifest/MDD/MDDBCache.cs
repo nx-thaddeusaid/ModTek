@@ -213,7 +213,7 @@ internal class MDDBCache
             Log.Main.Info?.Log("MDDBCache: Rebuilding.");
             Reset();
             reindexResources = new ConcurrentBag<CacheKey>();
-            foreach (var type in BTConstants.MDDBTypes)
+            Parallel.ForEach(BTConstants.MDDBTypes, type =>
             {
                 foreach (var entry in BetterBTRL.Instance.AllEntriesOfType(type))
                 {
@@ -222,7 +222,7 @@ internal class MDDBCache
                         reindexResources.Add(new CacheKey(entry));
                     }
                 }
-            }
+            });
         }
 
         CustomTagFeature.ProcessTags(); // TODO add change detection
