@@ -26,6 +26,21 @@ jobs:
         run: |
           find . -name "*.csproj" | xargs -I{} dotnet format whitespace --verify-no-changes {}
 
+  audit:
+    name: NuGet vulnerability scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+      - name: Check for vulnerable packages
+        # Restore may fail if game DLLs are absent; continue-on-error surfaces
+        # findings without blocking CI (Dependabot also covers this).
+        continue-on-error: true
+        run: |
+          find . -name "*.csproj" | xargs -I{} dotnet list {} package --vulnerable --include-transitive
+
   build:
     uses: ./.github/workflows/mod-builder.yml
     with:
