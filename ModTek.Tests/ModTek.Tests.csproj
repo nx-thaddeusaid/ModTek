@@ -18,8 +18,13 @@
     <Compile Include="../ModTek.Common/Utils/AssemblyUtils.cs" />
     <Compile Include="../ModTek.Common/Globals/Paths.cs" />
     <Compile Include="../ModTek/Util/LoadOrder.cs" />
+    <Compile Include="../ModTek/Util/HBSJsonUtils.cs" />
     <Compile Include="../ModTek/Features/AdvJSONMerge/MergeAction.cs" />
     <Compile Include="../ModTek/Features/AdvJSONMerge/MergeApplicator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestData/*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

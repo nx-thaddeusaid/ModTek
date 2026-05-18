@@ -1,0 +1,251 @@
+{
+  "Description": {
+    "Id": "chassisdef_test_large",
+    "Name": "Test Large",
+    "Details": "Synthetic test data for HBSJsonUtils streaming perf gate.Synthetic test data for HBSJsonUtils streaming perf gate.Synthetic test data for HBSJsonUtils streaming perf gate.Synthetic test data for HBSJsonUtils streaming perf gate.Synthetic test data for HBSJsonUtils streaming perf gate.",
+    "Icon": "uixSvgIcon_TestIcon"
+  },
+  "Locations": [
+    {
+      "Location": "Location_0",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 11,
+      "MaxArmor": 97,
+      "MaxRearArmor": 17,
+      "InternalStructure": 67,
+      "Tonnage": 3.0249517617150747
+    },
+    {
+      "Location": "Location_1",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "AntiPersonnel",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Support",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 10,
+      "MaxArmor": 99,
+      "MaxRearArmor": 64,
+      "InternalStructure": 58,
+      "Tonnage": 2.2653596968386362
+    },
+    {
+      "Location": "Location_2",
+      "Hardpoints": [
+        {
+          "WeaponMount": "AntiPersonnel",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Support",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Energy",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 18,
+      "MaxArmor": 190,
+      "MaxRearArmor": 35,
+      "InternalStructure": 71,
+      "Tonnage": 10.69300320792934
+    },
+    {
+      "Location": "Location_3",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Support",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 8,
+      "MaxArmor": 95,
+      "MaxRearArmor": 97,
+      "InternalStructure": 41,
+      "Tonnage": 3.022102765198487
+    },
+    {
+      "Location": "Location_4",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "AntiPersonnel",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 5,
+      "MaxArmor": 157,
+      "MaxRearArmor": 68,
+      "InternalStructure": 27,
+      "Tonnage": 11.731157639793706
+    },
+    {
+      "Location": "Location_5",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "AntiPersonnel",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "AntiPersonnel",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 22,
+      "MaxArmor": 89,
+      "MaxRearArmor": 90,
+      "InternalStructure": 24,
+      "Tonnage": 2.458243836556622
+    },
+    {
+      "Location": "Location_6",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Ballistic",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Energy",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 7,
+      "MaxArmor": 137,
+      "MaxRearArmor": 35,
+      "InternalStructure": 49,
+      "Tonnage": 8.356844442644002
+    },
+    {
+      "Location": "Location_7",
+      "Hardpoints": [
+        {
+          "WeaponMount": "Energy",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Missile",
+          "Omni": false,
+          "IsFixed": false
+        },
+        {
+          "WeaponMount": "Energy",
+          "Omni": false,
+          "IsFixed": false
+        }
+      ],
+      "InventorySlots": 12,
+      "MaxArmor": 58,
+      "MaxRearArmor": 77,
+      "InternalStructure": 60,
+      "Tonnage": 3.71138648198097
+    }
+  ],
+  "Variants": [
+    "chassisdef_test_variant_0"
+  ],
+  "MovementCapDefID": "movedef_test_baseline",
+  "PathingCapDefID": "pathingdef_test_baseline",
+  "HardpointDataDefID": "hardpointdatadef_test"
+}

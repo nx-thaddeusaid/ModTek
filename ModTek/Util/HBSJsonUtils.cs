@@ -32,7 +32,7 @@ internal static class HBSJsonUtils
 
     internal static JObject ParseGameJSON(string content, bool log = false)
     {
-        Log.Main.Info?.LogIf(log,"content: " + content);
+        Log.Main.Info?.LogIf(log, "content: " + content);
 
         try
         {
@@ -47,14 +47,14 @@ internal static class HBSJsonUtils
         Log.Main.Info?.LogIf(log, "commentsStripped: " + commentsStripped);
 
         var commasAdded = FixHBSJsonCommas(commentsStripped);
-        Log.Main.Info?.LogIf(log,"commasAdded: " + commasAdded);
+        Log.Main.Info?.LogIf(log, "commasAdded: " + commasAdded);
 
         return JObject.Parse(commasAdded);
     }
 
     private static readonly Regex s_fixMissingCommasInJson = new(
         """(\]|\}|"|[A-Za-z0-9])\s*\n\s*(\[|\{|")""",
-        RegexOptions.Singleline|RegexOptions.Compiled
+        RegexOptions.Singleline | RegexOptions.Compiled
     );
     private static string FixHBSJsonCommas(string json)
     {
